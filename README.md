@@ -52,6 +52,26 @@ uv tool install my-office-days-cli
 mod --help
 ```
 
+## Agent skill
+
+This repository includes a `my-office-days` skill for compatible AI coding
+agents. Install it interactively with the open [Skills CLI](https://skills.sh/):
+
+```powershell
+npx skills add cveld/my-office-days-cli --skill my-office-days
+```
+
+The installer detects supported agents and lets you choose where to install the
+skill. To make it available globally instead of only in the current project,
+add `--global`:
+
+```powershell
+npx skills add cveld/my-office-days-cli --skill my-office-days --global
+```
+
+The skill uses the published CLI through `uvx`, keeps credentials in the OS
+keyring, and preserves the explicit confirmation requirement for bookings.
+
 ## Configure and log in
 
 The base URL includes both the tenant host and customer path:
