@@ -117,7 +117,7 @@ Build the package locally:
 
 ```powershell
 uv build
-uvx --from ./dist/my_office_days_cli-0.1.0-py3-none-any.whl mod --help
+uvx --from ./dist/my_office_days_cli-0.0.0-py3-none-any.whl mod --help
 ```
 
 ## Releases
