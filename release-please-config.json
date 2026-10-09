@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "python",
+      "package-name": "my-office-days-cli",
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": [
+        "src/my_office_days/__init__.py"
+      ]
+    }
+  }
+}

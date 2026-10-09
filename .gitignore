@@ -1,0 +1,27 @@
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Secrets and captures can contain bearer tokens and personal data.
+config.json
+credentials.json
+*.har
+captures/
+
+# Keep downloaded packages and tool binaries outside Git.
+*.apk
+*.apks
+*.aab
+tools/
+
+# Reverse-engineering material remains in the private Experiments workspace.
+research/
+
+# Distribution output.
+dist/
+build/
+*.egg-info/
