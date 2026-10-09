@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/cveld/my-office-days-cli/compare/my-office-days-cli-v0.1.0...my-office-days-cli-v0.2.0) (2026-10-09)
+
+
+### Features
+
+* add package-named CLI alias ([821c873](https://github.com/cveld/my-office-days-cli/commit/821c87381192fd5a638a1a661b678e1e282a6b9a))
+
+
+### Bug Fixes
+
+* publish releases from release please ([f895094](https://github.com/cveld/my-office-days-cli/commit/f895094873adb842d6e4cb5762b1ffae239a75b3))
+
 ## 0.1.0 (2026-10-09)
 
 
