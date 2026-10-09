@@ -1,6 +1,6 @@
 [project]
 name = "my-office-days-cli"
-version = "0.0.0"
+version = "0.1.0"
 description = "Personal CLI for My Office Days"
 readme = "README.md"
 license = "MIT"
