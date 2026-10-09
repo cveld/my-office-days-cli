@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/cveld/my-office-days-cli/compare/my-office-days-cli-v0.2.0...my-office-days-cli-v0.3.0) (2026-10-09)
+
+
+### Features
+
+* add installable agent skill ([a7772a6](https://github.com/cveld/my-office-days-cli/commit/a7772a65b38b0fa93448a58814e7e54c0cdd9a4f))
+
 ## [0.2.0](https://github.com/cveld/my-office-days-cli/compare/my-office-days-cli-v0.1.0...my-office-days-cli-v0.2.0) (2026-10-09)
 
 
