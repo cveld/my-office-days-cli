@@ -9,6 +9,9 @@ A secure command-line client for your personal **My Office Days** account. View
 locations and availability, inspect your bookings, and create a booking with an
 explicit confirmation and read-back verification.
 
+The API behavior implemented by this project was derived from the official
+[My office days Android app on Google Play](https://play.google.com/store/apps/details?id=nl.ondmand.myofficedays&hl=en_US).
+
 > [!IMPORTANT]
 > This is an independent community project. It is not affiliated with or
 > endorsed by My Office Days or On-D-Mand.
