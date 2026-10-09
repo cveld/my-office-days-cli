@@ -131,7 +131,7 @@ Repository maintainers must configure a PyPI Trusted Publisher for:
 
 - owner: `cveld`
 - repository: `my-office-days-cli`
-- workflow: `publish.yml`
+- workflow: `release-please.yml`
 - environment: `pypi`
 
 ## License
