@@ -33,7 +33,13 @@ The API behavior implemented by this project was derived from the official
 
 ## Run without installing
 
-After the first package has been published to PyPI:
+Run the CLI directly from PyPI:
+
+```powershell
+uvx my-office-days-cli --help
+```
+
+The shorter `mod` command is also available:
 
 ```powershell
 uvx --from my-office-days-cli mod --help

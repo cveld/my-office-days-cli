@@ -25,6 +25,7 @@ dependencies = [
 
 [project.scripts]
 mod = "my_office_days.cli:app"
+my-office-days-cli = "my_office_days.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/cveld/my-office-days-cli"
