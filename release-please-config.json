@@ -6,7 +6,11 @@
       "package-name": "my-office-days-cli",
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
-        "src/my_office_days/__init__.py"
+        "src/my_office_days/__init__.py",
+        {
+          "type": "generic",
+          "path": "uv.lock"
+        }
       ]
     }
   }
