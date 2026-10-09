@@ -5,6 +5,10 @@
       "release-type": "python",
       "package-name": "my-office-days-cli",
       "changelog-path": "CHANGELOG.md",
+      "exclude-paths": [
+        "README.md",
+        "skills"
+      ],
       "extra-files": [
         "src/my_office_days/__init__.py",
         {
