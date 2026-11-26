@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/cveld/my-office-days-cli/compare/my-office-days-cli-v0.2.0...my-office-days-cli-v0.2.1) (2026-11-26)
+
+
+### Bug Fixes
+
+* **bookings:** check the capacity of the selected timeslot ([266ebb9](https://github.com/cveld/my-office-days-cli/commit/266ebb97e109c856565cf3a88660bf63e48423a4))
+
 ## [0.2.0](https://github.com/cveld/my-office-days-cli/compare/my-office-days-cli-v0.1.0...my-office-days-cli-v0.2.0) (2026-10-09)
 
 
