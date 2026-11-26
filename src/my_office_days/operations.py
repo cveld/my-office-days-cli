@@ -159,6 +159,39 @@ query building($kind: String, $sub_kind: String, $timeslot_day: [Int]) {
 """.strip()
 
 
+TIMESLOT_CAPACITY_QUERY = """
+query timeslot_capacity(
+  $booking_date: String
+  $kind: String
+  $building_guid: String
+  $floor_guid: String
+  $room_guid: String
+  $timeslot_guid: String!
+) {
+  timeslot_capacity(
+    booking_date: $booking_date
+    kind: $kind
+    building_guid: $building_guid
+    floor_guid: $floor_guid
+    room_guid: $room_guid
+    timeslot_guid: $timeslot_guid
+  ) {
+    timeslot_guid
+    date
+    capacity
+    remaining
+    bookings
+    block_comment
+    exception_kind
+    employee_did_book
+    timeslot_can_book_from
+    timeslot_can_book_until
+    timeslot_can_cancel_until
+  }
+}
+""".strip()
+
+
 CREATE_BOOKING_MUTATION = """
 mutation create_employee_booking(
   $kind: String!
@@ -222,6 +255,31 @@ def get_availability(
         "employeeGuid": employee_guid,
     }
     return client.graphql("booking_capacity", BOOKING_CAPACITY_QUERY, variables)
+
+
+def get_timeslot_capacity(
+    client: ModClient,
+    *,
+    booking_date: str,
+    kind: str,
+    building_guid: str,
+    floor_guid: str | None,
+    timeslot_guid: str,
+    room_guid: str | None = None,
+) -> Any:
+    """Capacity of one concrete timeslot, as the mobile app shows it before booking."""
+    return client.graphql(
+        "timeslot_capacity",
+        TIMESLOT_CAPACITY_QUERY,
+        {
+            "booking_date": booking_date,
+            "kind": kind,
+            "building_guid": building_guid,
+            "floor_guid": floor_guid,
+            "room_guid": room_guid,
+            "timeslot_guid": timeslot_guid,
+        },
+    )
 
 
 def list_booking_types(client: ModClient, *, include_inactive: bool = False) -> Any:

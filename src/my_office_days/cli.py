@@ -19,6 +19,7 @@ from .client import ModApiError, ModClient
 from .config import Config, data_dir
 from .operations import (
     get_availability,
+    get_timeslot_capacity,
     booking_type_slug,
     create_booking,
     list_booking_types,
@@ -208,6 +209,29 @@ def _configured_client(config: Config) -> ModClient:
         typer.echo("Log in first with 'mod auth login'.", err=True)
         raise typer.Exit(2)
     return ModClient(config.base_url, token, get_encryption_key())
+
+
+def _slot_label(selected: dict[str, object]) -> str:
+    return f"{str(selected.get('start') or '')[:5]}-{str(selected.get('end') or '')[:5]}"
+
+
+def _selected_slot_remaining(
+    client: ModClient, selected: dict[str, object], date: str, kind: str
+) -> int | None:
+    """Remaining places of the one selected timeslot, or None when the server gives none."""
+    result = get_timeslot_capacity(
+        client,
+        booking_date=date,
+        kind=kind,
+        building_guid=str(selected["building_guid"]),
+        floor_guid=(str(selected["floor_guid"]) if selected["floor_guid"] else None),
+        room_guid=(str(selected["room_guid"]) if selected["room_guid"] else None),
+        timeslot_guid=str(selected["timeslot_guid"]),
+    )
+    capacity = result.get("timeslot_capacity") if isinstance(result, dict) else None
+    if not isinstance(capacity, dict) or capacity.get("remaining") is None:
+        return None
+    return int(capacity["remaining"])
 
 
 @app.command("buildings")
@@ -435,28 +459,18 @@ def bookings_create(
                 raise typer.Exit(2)
 
             selected = candidates[0]
-            capacity_result = get_availability(
-                client,
-                config.employee_guid,
-                [date],
-                kinds=[kind],
-                sub_kinds=[sub_kind],
-            )
-            capacity_items = capacity_result.get("booking_capacity", [])
-            matching_capacity = [
-                item
-                for item in capacity_items
-                if isinstance(item, dict)
-                and item.get("building_guid") == selected["building_guid"]
-            ]
-            if not matching_capacity:
+            # Capacity rows from booking_capacity carry no timeslot GUID, so they cannot be
+            # attributed to one slot (an exception row of a full late slot would block the
+            # early slot). Ask the server for the capacity of exactly the selected slot.
+            remaining = _selected_slot_remaining(client, selected, date, kind)
+            if remaining is None:
                 typer.echo("No current capacity information was found for this timeslot.", err=True)
                 raise typer.Exit(2)
-            remaining = min(
-                int(item.get("remaining", 0)) for item in matching_capacity
-            )
             if remaining < 1:
-                typer.echo("This booking type is no longer available on that date.", err=True)
+                typer.echo(
+                    f"The timeslot {_slot_label(selected)} is fully booked on that date.",
+                    err=True,
+                )
                 raise typer.Exit(2)
 
             before = list_bookings(client, config.employee_guid, [date])
@@ -497,13 +511,7 @@ def bookings_create(
                 room_guid=(str(selected["room_guid"]) if selected["room_guid"] else None),
             )
             after = list_bookings(client, config.employee_guid, [date])
-            capacity_after_result = get_availability(
-                client,
-                config.employee_guid,
-                [date],
-                kinds=[kind],
-                sub_kinds=[sub_kind],
-            )
+            remaining_after = _selected_slot_remaining(client, selected, date, kind)
     except ModApiError as error:
         typer.echo(str(error), err=True)
         raise typer.Exit(1) from error
@@ -518,18 +526,6 @@ def bookings_create(
     if not created_guid or not verified:
         typer.echo("The server response could not be verified by reading the booking back.", err=True)
         raise typer.Exit(1)
-    matching_capacity_after = [
-        item
-        for item in capacity_after_result.get("booking_capacity", [])
-        if isinstance(item, dict)
-        and item.get("building_guid") == selected["building_guid"]
-        and (not selected["room_guid"] or item.get("room_guid") == selected["room_guid"])
-    ]
-    remaining_after = (
-        min(int(item.get("remaining", 0)) for item in matching_capacity_after)
-        if matching_capacity_after
-        else None
-    )
     typer.echo(
         json.dumps(
             {
